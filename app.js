@@ -31,5 +31,5 @@ app.use("/", indexRouter);
 var port = 3000;
 
 app.listen(3000, () => {
-    console.log(`App is running on ${port}` );
+    console.log(`App is running on ${port}`);
 })

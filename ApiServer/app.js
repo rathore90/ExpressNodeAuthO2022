@@ -15,21 +15,21 @@ var jwtCheck = jwt({
         jwksRequestsPerMinute: 5,
         jwksUri: 'https://dev-mda53ujl.us.auth0.com/.well-known/jwks.json'
   }),
-  audience: 'http://localhost:5000/',
+  audience: 'http://localhost:5000',
   issuer: 'https://dev-mda53ujl.us.auth0.com/',
   algorithms: ['RS256']
 });
 
 app.get('/public', (req, res) => {
     res.json({
-        type: "Public"
+        type: "public"
     })
 })
 
 // jwt middleware checking if the request has a valid token
 app.get('/private', jwtCheck, (req, res) => {
     res.json({
-        type: "Private"
+        type: "private"
     })
 })
 

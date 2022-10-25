@@ -15,16 +15,19 @@ router.get('/', (req, res)=> {
 router.get('/secured', requiresAuth(), async(req, res) => {
     let data = {}
     const { token_type, access_token } = req.oidc.accessToken;
+
     try{
         // calling the server to get the data, make sure you get the data before moving forward(async, await)
-        const apiResponse = await axios.get('http://localhost:5000/public');
+        const apiResponse = await axios.get('http://localhost:5000/private',
         {
             headers: {
                 authorization: `${token_type} ${access_token}`
             }
-        }
+        });
         data = apiResponse.data;
-    }catch(e) {}
+    }catch(e) {
+        console.log(e);
+    }
 
     // when there is not error, you will be redirected to the secured page with the data you get fromt the api
     res.render('secured', {
