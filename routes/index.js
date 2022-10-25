@@ -18,8 +18,7 @@ router.get('/secured', requiresAuth(), async(req, res) => {
 
     try{
         // calling the server to get the data, make sure you get the data before moving forward(async, await)
-        const apiResponse = await axios.get('http://localhost:5000/private',
-        {
+        const apiResponse = await axios.get('http://localhost:5000/private', {
             headers: {
                 authorization: `${token_type} ${access_token}`
             }
