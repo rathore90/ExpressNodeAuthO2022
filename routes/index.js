@@ -14,9 +14,15 @@ router.get('/', (req, res)=> {
 // trigger the endoint, and call the middleware, if the user is logged in or not
 router.get('/secured', requiresAuth(), async(req, res) => {
     let data = {}
+    const { token_type, access_token } = req.oidc.accessToken;
     try{
         // calling the server to get the data, make sure you get the data before moving forward(async, await)
         const apiResponse = await axios.get('http://localhost:5000/public');
+        {
+            headers: {
+                authorization: `${token_type} ${access_token}`
+            }
+        }
         data = apiResponse.data;
     }catch(e) {}
 
