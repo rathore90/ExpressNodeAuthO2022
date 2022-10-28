@@ -22,9 +22,10 @@ var jwtCheck = jwt({
   algorithms: ['RS256']
 });
 
-const checkPermission = jwtAuthz(["read:messages"], {
-    customScopeKey: "permissions"
-})
+const checkPermission = jwtAuthz(["read:messages"],{
+      customScopeKey: "permissions"
+    }
+  );
 
 app.get('/public', (req, res) => {
     res.json({

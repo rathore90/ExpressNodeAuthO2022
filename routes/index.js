@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const { requiresAuth } = require('express-openid-connect');
-const axios = require('axios');
 const blogController = require('./../controller/blogController');
 
 // Application routes

@@ -1,4 +1,4 @@
-
+const axios = require('axios');
 const blog_index = (req, res)=> {
   let isAuthenticated = req.oidc.isAuthenticated();
   res.render("index", { 
