@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+const mongoose = require('mongoose');
 var indexRouter = require("./routes/index");
 const { auth } = require('express-openid-connect');
 require('dotenv').config();
@@ -15,21 +16,22 @@ const config = {
   authorizationParams: {
     response_type: 'code',
     audience: 'http://localhost:5000',
-    scope: 'openid profile email'
+    scope: 'openid profile email read:messages'
   }
 };
 
+// connection string
+const dbURI = 'mongodb+srv://pardeep_node:44yxbBysXCgZ3bSn@cluster0.n66oq.mongodb.net/node-tuts?retryWrites=true&w=majority'
+mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
+  .then((result) => app.listen(process.env.PORT || 3000))
+  .catch((err) => console.log(err));
+
 app.set("views", "views");
 app.set("view engine", "ejs");
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
 app.use("/", indexRouter);
-
-var port = 3000;
-
-app.listen(3000, () => {
-    console.log(`App is running on ${port}`);
-})
