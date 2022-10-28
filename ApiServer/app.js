@@ -22,13 +22,6 @@ var jwtCheck = jwt({
   algorithms: ['RS256']
 });
 
-var options = {
-    customScopeKey: 'permissions'
-};
-// const checkPermission = jwtAuthz(['read:messages'], options, { checkAllScopes: true });
-
-// console.log("checkPermissionss ", checkPermission);
-
 const checkPermission = jwtAuthz(["read:messages"], {
     customScopeKey: "permissions"
 })
