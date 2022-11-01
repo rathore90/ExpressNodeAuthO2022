@@ -1,10 +1,20 @@
 const axios = require('axios');
+const Blog = require('../models/blog');
+
 const blog_index = (req, res)=> {
   let isAuthenticated = req.oidc.isAuthenticated();
-  res.render("index", { 
-      title: "My auth app",
-      isAuthenticated: isAuthenticated
-   });
+  if(isAuthenticated) {
+    res.render("index", { 
+        title: "My auth app",
+        isAuthenticated: isAuthenticated
+     });
+  }else{
+    res.render("noindex", { 
+        title: "My auth app",
+        isAuthenticated: isAuthenticated
+     });
+  }
+
 }
 
 const secured_endpoint = async(req, res) => {
@@ -33,7 +43,7 @@ const secured_endpoint = async(req, res) => {
   })
 }; 
 
-const create_record = async(req, res) => {
+const role_based_authentication = async(req, res) => {
   let data = {}
   const { token_type, access_token } = req.oidc.accessToken;
 
@@ -63,9 +73,21 @@ const create_record = async(req, res) => {
   
 }
 
+const blog_create_post = (req, res) => {
+    const blog = new Blog(req.body);
+    blog.save()
+    .then(result => {
+      res.redirect('/');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
   module.exports = {
     blog_index,
     secured_endpoint,
-    create_record
+    role_based_authentication,
+    blog_create_post
   }
   
