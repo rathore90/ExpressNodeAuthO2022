@@ -4,17 +4,21 @@ const Blog = require('../models/blog');
 const blog_index = (req, res)=> {
   let isAuthenticated = req.oidc.isAuthenticated();
   if(isAuthenticated) {
-    res.render("index", { 
-        title: "My auth app",
-        isAuthenticated: isAuthenticated
-     });
-  }else{
+    Blog.find().sort({
+        createdAt: -1
+    }).then(result => {
+        res.render("index", { 
+            blogs: result,
+            title: "My auth app",
+            isAuthenticated: isAuthenticated
+         });
+    });
+    } else {
     res.render("noindex", { 
         title: "My auth app",
         isAuthenticated: isAuthenticated
      });
   }
-
 }
 
 const secured_endpoint = async(req, res) => {
