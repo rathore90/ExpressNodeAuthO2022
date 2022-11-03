@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <%- include("./partials/nav.ejs") %>
+    <h1><%- title %></h1>
+    <!-- we will create a form to send data to backend and store into the database -->
+    <div class="update-blog content">
+      <form action="/blog_edit/<%= blog.id %>" method="post" style="display: inline-grid;">
+        <label for="title">Product title:</label>
+        <input type="text" id="title" name="title" value="<%= blog.title %>" required>
+        <label for="snippet">Product Price:</label>
+        <input type="text" id="snippet" name="snippet" value="<%= blog.snippet %>" required>
+        <label for="body">Product Description:</label>
+        <textarea id="body" name="body" value="<%= blog.body %>" required></textarea>
+        <button>Submit</button>
+      </form>
+     </div> 
+</body>
+</html>

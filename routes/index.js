@@ -8,5 +8,7 @@ router.get('/', blogController.blog_index);
 router.get('/secured', requiresAuth(), blogController.secured_endpoint);
 router.get('/create', requiresAuth(), blogController.role_based_authentication);
 router.post('/blogs', blogController.blog_create_post);
+router.get('/blog/:id', blogController.blog_edit_view);
+router.post('/blog_edit/:id', blogController.blog_update);
 
 module.exports = router;

@@ -88,10 +88,49 @@ const blog_create_post = (req, res) => {
     });
 }
 
+const blog_edit_view = (req, res) => {
+    const id = req.params.id;
+    Blog.findById(id)
+        .then(result => {
+            res.render('edit', {
+                blog: result,
+                title: "Blog Edit",
+                isAuthenticated: req.oidc.isAuthenticated(),
+                user: req.oidc.user
+            })
+        })
+        .catch(err => {
+            console.log("Error ", err);
+        })
+}
+
+const blog_update = async (req, res) => {
+    // Need ID
+    const _id = req.params.id;
+    // Blog.findOne(_id)
+    const doc = await Blog.findOne({ _id });
+    // Overwrite
+    doc.overwrite({
+        title: req.body.title,
+        snippet: req.body.snippet,
+        body: req.body.body
+    })
+
+    await doc.save()
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.log("ERROR ", err);
+        })
+}
+
   module.exports = {
     blog_index,
     secured_endpoint,
     role_based_authentication,
-    blog_create_post
+    blog_create_post,
+    blog_edit_view,
+    blog_update
   }
   
