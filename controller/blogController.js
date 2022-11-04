@@ -1,5 +1,10 @@
 const axios = require('axios');
 const Blog = require('../models/blog');
+require('dotenv').config();
+const PUBLISHER_KEY = process.env.PUBLISHER_KEY
+const SECRET_KEY = process.env.SECRET_KEY
+
+const stripe = require('stripe')(SECRET_KEY);
 
 const blog_index = (req, res)=> {
   let isAuthenticated = req.oidc.isAuthenticated();
@@ -10,7 +15,8 @@ const blog_index = (req, res)=> {
         res.render("index", { 
             blogs: result,
             title: "My auth app",
-            isAuthenticated: isAuthenticated
+            isAuthenticated: isAuthenticated,
+            key: PUBLISHER_KEY
          });
     });
     } else {
@@ -125,12 +131,42 @@ const blog_update = async (req, res) => {
         })
 }
 
+const blog_payment = (req, res) => {
+    stripe.customers.create({
+        email: req.body.stripeEmail,
+        source: req.body.stripeToken,
+        name: "Pardeep Rathore",
+        address: {
+            line1: '801 Fennel Road',
+            postal_code: '110092',
+            city: 'Kelowna',
+            state: 'BC',
+            country: 'Canada',
+        }
+    })
+        .then((customer) => {
+            return stripe.charges.create({
+                amount: 7000,
+                description: "Product Development",
+                currency: "USD",
+                customer: customer.id
+            })
+        })
+        .then((charge) => {
+            res.render('payment_success', { title: "Payment Success" });
+        })
+        .catch((err) => {
+            res.send(err)    // If some error occurs 
+        })
+}
+
   module.exports = {
     blog_index,
     secured_endpoint,
     role_based_authentication,
     blog_create_post,
     blog_edit_view,
-    blog_update
+    blog_update,
+    blog_payment
   }
   

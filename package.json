@@ -18,6 +18,7 @@
     "express-jwt-authz": "^2.4.1",
     "express-openid-connect": "^2.9.0",
     "mongoose": "^6.7.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "stripe": "^10.16.0"
   }
 }
