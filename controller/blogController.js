@@ -1,4 +1,5 @@
 const axios = require('axios');
+// const { claimCheck } = require('express-openid-connect');
 const Blog = require('../models/blog');
 require('dotenv').config();
 const PUBLISHER_KEY = process.env.PUBLISHER_KEY
@@ -52,6 +53,12 @@ const secured_endpoint = async(req, res) => {
       data
   })
 }; 
+
+// claims for checking if the user is admin, customer, or client 
+// const role_based_authentication =  claimCheck((req, claims) => {
+//     console.log(claims)
+// });
+// 
 
 const role_based_authentication = async(req, res) => {
   let data = {}
